@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Coding,Python,C,Cuda,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="C、Python、Cuda、Torch混合编译学习纪录">
+<meta name="keywords" content="Coding,Python,C,Cuda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C、Python、Cuda、Torch混合编译学习纪录">
+<meta property="og:url" content="http://yoursite.com/2019/05/20/C、Python、Cuda、Torch混合编译/index.html">
+<meta property="og:site_name" content="ReKarma">
+<meta property="og:description" content="C、Python、Cuda、Torch混合编译学习纪录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g37juvmtsyj306k03iglw.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g37jx1bjwoj30ds02kq3p.jpg">
+<meta property="og:updated_time" content="2019-06-23T13:32:58.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C、Python、Cuda、Torch混合编译学习纪录">
+<meta name="twitter:description" content="C、Python、Cuda、Torch混合编译学习纪录">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g37juvmtsyj306k03iglw.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/20/C、Python、Cuda、Torch混合编译/">
+
+
+
+
+
+  <title>C、Python、Cuda、Torch混合编译学习纪录 | ReKarma</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ReKarma</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WELCOME</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-catalogue">
+          <a href="/catalogues/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/C、Python、Cuda、Torch混合编译/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeeHX">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Me.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ReKarma">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C、Python、Cuda、Torch混合编译学习纪录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T09:36:35+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index">
+                    <span itemprop="name">Coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  C、Python、Cuda、Torch混合编译学习纪录
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>😄—————————————————————————————————————————————————😄</p>
+<h1 id="C-amp-Python"><a href="#C-amp-Python" class="headerlink" title="C &amp; Python"></a>C &amp; Python</h1><p>要想学习如何进行混编，首先需要学习的就是如何用C来编译程序供Python调用</p>
+<p>开发者有三种方法可以在自己的Python代码中来调用C编写的函数-<code>ctypes</code>，<code>SWIG</code>，<code>Python/C API</code>。每种方式也都有各自的利弊。</p>
+<h2 id="Ctypes"><a href="#Ctypes" class="headerlink" title="Ctypes"></a>Ctypes</h2><p>python 可以通过使用 ctypes 模块调用 c 函数，这其中必定包括可以定义 c 的变量类型(包括结构体类型、指针类型),是一个为 Python 准备的外部函数库。它提供兼容C的数据类型，并允许调用DLL或共享库中的函数。</p>
+<p>Python中的<strong>ctypes模块</strong>是Python调用C方法中最简单的一种,ctypes模块提供了和C语言兼容的数据类型和函数来加载dll文件，因此在调用时不需对源文件做任何的修改。</p>
+<h5 id="🌰-Python调用C汇编的ADD操作"><a href="#🌰-Python调用C汇编的ADD操作" class="headerlink" title="🌰 Python调用C汇编的ADD操作"></a>🌰 Python调用C汇编的<strong>ADD</strong>操作</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// int add_int(int,int);</span></span><br><span class="line"><span class="comment">// float add_int(float,float);</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add_int</span><span class="params">(<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">add_float</span><span class="params">(<span class="keyword">float</span> num1,<span class="keyword">float</span> num2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来将C文件编译为<code>.so</code>文件(windows下为DLL)</p>
+<p>下面操作会生成adder.so文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#For Linux</span><br><span class="line">$  gcc -shared -Wl,-soname,adder -o adder.so -fPIC add.c</span><br><span class="line"></span><br><span class="line">#For Mac</span><br><span class="line">$ gcc -shared -Wl,-install_name,adder.so -o adder.so -fPIC add.c</span><br></pre></td></tr></table></figure>
+<p>C文件和对应生成的文件如下图所示:</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g37juvmtsyj306k03iglw.jpg" alt="0350BC46-2117-465D-9B17-CA4AC08BBDB8"></p>
+<p>现在就可以在Python代码中来调用它</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">adder = CDLL(<span class="string">'./adder.so'</span>)</span><br><span class="line"></span><br><span class="line">a=<span class="number">4</span></span><br><span class="line">b=<span class="number">5</span></span><br><span class="line">res_int = adder.add_int(a,b)</span><br><span class="line">print(<span class="string">f'Sum of <span class="subst">&#123;a&#125;</span> and <span class="subst">&#123;b&#125;</span> = '</span> +str(res_int))</span><br><span class="line"></span><br><span class="line">fa =c_float(<span class="number">4.0</span>)</span><br><span class="line">fb =c_float(<span class="number">5.0</span>)</span><br><span class="line">add_float = adder.add_float</span><br><span class="line">add_float.restype =c_float</span><br><span class="line">print(<span class="string">f'Sum of <span class="subst">&#123;fa.value&#125;</span> and <span class="subst">&#123;fb.value&#125;</span> = '</span> +str(add_float(fa,fb)))</span><br></pre></td></tr></table></figure>
+<p>其结果为：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g37jx1bjwoj30ds02kq3p.jpg" alt="7079D838-BA09-4E0A-9882-CF8D2DDBBA4B"></p>
+<p>在这个例子中，C文件是自解释的，它包含两个函数，分别实现了整形求和和浮点型求和。</p>
+<p>在Python文件中，一开始先导入ctypes模块，然后使用CDLL函数来加载我们创建的库文件。这样我们就可以通过变量<code>adder</code>来使用C类库中的函数了。当<code>adder.add_int()</code>被调用时，内部将发起一个对C函数<code>add_int</code>的调用。<strong>ctypes接口允许我们在调用C函数时使用原生Python中默认的字符串型和整型</strong>。</p>
+<p>而对于其他类似<strong>布尔型和浮点型</strong>这样的类型，必须要使用正确的ctype类型才可以，如向<code>adder.add_float()</code>函数传参时, 我们要先将Python中的十进制值转化为c_float类型，然后才能传送给C函数。这种方法虽然简单，清晰，但是却很受限。例如，并不能在C中对对象进行操作。</p>
+<h2 id="SWIG"><a href="#SWIG" class="headerlink" title="SWIG"></a>SWIG</h2><p>SWIG是Simplified Wrapper and Interface Generator的缩写。是Python中调用C代码的另一种方法。在这个方法中，开发人员必须编写一个额外的接口文件来作为SWIG(终端工具)的入口。</p>
+<p>Python开发者一般不会采用这种方法，因为大多数情况它会带来不必要的复杂。而当你有一个C/C++代码库需要被多种语言调用时，这将是个非常不错的选择。</p>
+<p>🌰 [SWIG官方示例][<a href="http://www.swig.org/tutorial.html]" target="_blank" rel="noopener">http://www.swig.org/tutorial.html]</a></p>
+<h2 id="Python-C"><a href="#Python-C" class="headerlink" title="Python/C"></a>Python/C</h2><p><strong>Python/C API</strong>是被最广泛使用的方法,它可以在C代码中操作Python对象</p>
+<p>这种方法需要以特定的方式来编写C代码以供Python去调用它。</p>
+<p>所有的Python对象都被表示为一种叫做PyObject的结构体，并且<code>Python.h</code>头文件中提供了各种操作它的函数。例如，如果PyObject表示为PyListType(列表类型)时，那么我们便可以使用<code>PyList_Size()</code>函数来获取该结构的长度，类似Python中的<code>len(list)</code>函数。大部分对Python原生对象的基础函数和操作在<code>Python.h</code>头文件中都能找到。</p>
+<p>🌰 编写一个C扩展，添加所有元素到一个Python列表(所有元素都是数字)</p>
+<ul>
+<li><p><strong>首先，编写C代码</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Python.h has all the required function definitions to manipulate the Python objects</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Python.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//This is the function that is called from your python code</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> PyObject* <span class="title">addList_add</span><span class="params">(PyObject* self, PyObject* args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    PyObject * listObj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//The input arguments come as a tuple, we parse the args to get the various variables</span></span><br><span class="line">    <span class="comment">//In this case it's only one list variable, which will now be referenced by listObj</span></span><br><span class="line">    <span class="keyword">if</span> (! PyArg_ParseTuple( args, <span class="string">"O"</span>, &amp;listObj ))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//length of the list</span></span><br><span class="line">    <span class="keyword">long</span> length = PyList_Size(listObj);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//iterate over all the elements</span></span><br><span class="line">    <span class="keyword">int</span> i, sum =<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="comment">//get an element out of the list - the element is also a python objects</span></span><br><span class="line">        PyObject* temp = PyList_GetItem(listObj, i);</span><br><span class="line">        <span class="comment">//we know that object represents an integer - so convert it into C long</span></span><br><span class="line">        <span class="keyword">long</span> elem = PyInt_AsLong(temp);</span><br><span class="line">        sum += elem;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//value returned back to python code - another python object</span></span><br><span class="line">    <span class="comment">//build value here converts the C long to a python integer</span></span><br><span class="line">    <span class="keyword">return</span> Py_BuildValue(<span class="string">"i"</span>, sum);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//This is the docstring that corresponds to our 'add' function.</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">char</span> addList_docs[] =</span><br><span class="line"><span class="string">"add(  ): add all elements of the list\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* This table contains the relavent info mapping -</span></span><br><span class="line"><span class="comment">   &lt;function-name in python module&gt;, &lt;actual-function&gt;,</span></span><br><span class="line"><span class="comment">   &lt;type-of-args the function expects&gt;, &lt;docstring associated with the function&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> PyMethodDef addList_funcs[] = &#123;</span><br><span class="line">    &#123;<span class="string">"add"</span>, (PyCFunction)addList_add, METH_VARARGS, addList_docs&#125;,</span><br><span class="line">    &#123;<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   addList is the module name, and this is the initialization block of the module.</span></span><br><span class="line"><span class="comment">   &lt;desired module name&gt;, &lt;the-info-table&gt;, &lt;module's-docstring&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">PyMODINIT_FUNC <span class="title">initaddList</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    Py_InitModule3(<span class="string">"addList"</span>, addList_funcs,</span><br><span class="line">            <span class="string">"Add all ze lists"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>逐步解释</strong></p>
+<ul>
+<li><code>Python.h</code>头文件中包含了所有需要的类型(Python对象类型的表示)和函数定义(对Python对象的操作)</li>
+<li>接下来我们编写将要在Python调用的函数, 函数传统的命名方式由{模块名}_{函数名}组成，所以我们将其命名为<code>addList_add</code></li>
+<li>然后填写想在模块内实现函数的相关信息表，每行一个函数，以空行作为结束</li>
+<li>最后的模块初始化块签名为<code>PyMODINIT_FUNC init{模块名}</code>。</li>
+</ul>
+<p>函数<code>addList_add</code>接受的参数类型为PyObject类型结构(同时也表示为元组类型，因为Python中万物皆为对象，所以我们先用PyObject来定义)。传入的参数则通过<code>PyArg_ParseTuple()</code>来解析。</p>
+<p>第一个参数是被解析的参数变量。第二个参数是一个字符串，告诉我们如何去解析元组中每一个元素。字符串的第n个字母正是代表着元组中第n个参数的类型。例如，”i”代表整形，”s”代表字符串类型, “O”则代表一个Python对象。接下来的参数都是你想要通过<code>PyArg_ParseTuple()</code>函数解析并保存的元素。这样参数的数量和模块中函数期待得到的参数数量就可以保持一致，并保证了位置的完整性。例如，我们想传入一个字符串，一个整数和一个Python列表，可以这样去写</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">char</span> *s;</span><br><span class="line">PyObject* <span class="built_in">list</span>;</span><br><span class="line">PyArg_ParseTuple(args, <span class="string">"siO"</span>, &amp;n, &amp;s, &amp;<span class="built_in">list</span>);</span><br></pre></td></tr></table></figure>
+<p>在这种情况下，我们只需要提取一个列表对象，并将它存储在<code>listObj</code>变量中。然后用列表对象中的<code>PyList_Size()</code>函数来获取它的长度。就像Python中调用<code>len(list)</code>。</p>
+<p>现在我们通过循环列表，使用<code>PyList_GetItem(list, index)</code>函数来获取每个元素。这将返回一个<code>PyObject*</code>对象。既然Python对象也能表示<code>PyIntType</code>，我们只要使用<code>PyInt_AsLong(PyObj *)</code>函数便可获得我们所需要的值。我们对每个元素都这样处理，最后再得到它们的总和。</p>
+<p>总和将被转化为一个Python对象并通过<code>Py_BuildValue()</code>返回给Python代码，这里的i表示我们要返回一个Python整型对象。</p>
+</li>
+<li><p><strong>Setup.py</strong></p>
+<p>现在我们已经编写完C模块了。将下列代码保存为<code>setup.py</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#build the modules</span></span><br><span class="line"></span><br><span class="line">from distutils.core <span class="keyword">import</span> setup, Extension</span><br><span class="line"></span><br><span class="line">setup(name='addList', version='1.0',  \</span><br><span class="line">      ext_modules=[Extension('addList', ['adder.c'])])</span><br></pre></td></tr></table></figure>
+<p>并运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<p>现在应该已经将我们的C文件编译安装到我们的Python模块中了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#module that talks to the C code</span></span><br><span class="line"><span class="keyword">import</span> addList</span><br><span class="line"></span><br><span class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Sum of List - "</span> + str(l) + <span class="string">" = "</span> +  str(addList.add(l))</span><br></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sum of List - [1, 2, 3, 4, 5] = 15</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Coding/" rel="tag"># Coding</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+            <a href="/tags/Cuda/" rel="tag"># Cuda</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/17/Binary Ensemble Neural NetworkMore Bits per Network of More Networks per Bits/" rel="next" title="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+                <i class="fa fa-chevron-left"></i> Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Me.png" alt="LeeHX">
+            
+              <p class="site-author-name" itemprop="name">LeeHX</p>
+              <p class="site-description motion-element" itemprop="description">MY BLOG</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-amp-Python"><span class="nav-number">1.</span> <span class="nav-text">C &amp; Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ctypes"><span class="nav-number">1.1.</span> <span class="nav-text">Ctypes</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#🌰-Python调用C汇编的ADD操作"><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">🌰 Python调用C汇编的ADD操作</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#SWIG"><span class="nav-number">1.2.</span> <span class="nav-text">SWIG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-C"><span class="nav-number">1.3.</span> <span class="nav-text">Python/C</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LeeHX</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Paper,Quantization,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+<meta name="keywords" content="Paper,Quantization">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+<meta property="og:url" content="http://yoursite.com/2019/05/17/Binary Ensemble Neural NetworkMore Bits per Network of More Networks per Bits/index.html">
+<meta property="og:site_name" content="ReKarma">
+<meta property="og:description" content="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1g34eqz05k6j32560h6qcs.jpg">
+<meta property="og:updated_time" content="2019-06-23T13:35:27.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+<meta name="twitter:description" content="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1g34eqz05k6j32560h6qcs.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/17/Binary Ensemble Neural NetworkMore Bits per Network of More Networks per Bits/">
+
+
+
+
+
+  <title>Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits | ReKarma</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ReKarma</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WELCOME</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-catalogue">
+          <a href="/catalogues/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/17/Binary Ensemble Neural NetworkMore Bits per Network of More Networks per Bits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeeHX">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Me.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ReKarma">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T20:15:50+08:00">
+                2019-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Paper/" itemprop="url" rel="index">
+                    <span itemprop="name">Paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Binary-Ensemble-Neural-Network-More-Bits-per-Network-of-More-Networks-per-Bits"><a href="#Binary-Ensemble-Neural-Network-More-Bits-per-Network-of-More-Networks-per-Bits" class="headerlink" title="Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits"></a>Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits</h1><h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>BNN网路结构有着固有的缺点：</p>
+<ul>
+<li><strong>Robustness</strong>: 对于数据过于敏感<ul>
+<li>BNN网络结构更容易产生过拟合的现象</li>
+</ul>
+</li>
+<li><strong>Stability</strong>:对于网络参数过于敏感</li>
+</ul>
+<h2 id="Explore"><a href="#Explore" class="headerlink" title="Explore"></a>Explore</h2><h3 id="Robustness"><a href="#Robustness" class="headerlink" title="Robustness"></a>Robustness</h3><h4 id="Random-Network-Setting"><a href="#Random-Network-Setting" class="headerlink" title="Random Network Setting"></a>Random Network Setting</h4><p>$$<br>\mathbb{E}<em>{w} \mathbb{E}</em>{\Delta x}|f(x+\Delta x ; w)-f(x ; w)|^{2}<br>$$</p>
+<p>其中：</p>
+<p>$f$:代表网络结构</p>
+<p>$w$:代表网络的$weight$参数</p>
+<h3 id="Stability"><a href="#Stability" class="headerlink" title="Stability"></a>Stability</h3><p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g34eqz05k6j32560h6qcs.jpg" alt="2EFA8334-4CB2-4167-8BFA-3E233F2DFA2B"></p>
+<ul>
+<li>影响网络性能的参数主要是Feature Map的量化bit数，如果提高bit数，则其性能能够得到比较大的提升</li>
+<li>提高Weight的量化bit数只会使网络的性能得到比较小的提升</li>
+<li>使得 QNN能够达到稳定性的设置是：Weight 和 Activation均能够保持4bit的尺度范围</li>
+<li>BNN由于梯度消失和激活函数不平滑的原因，很难进行训练</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>本文所提出的方法是分别基于Bagging和Boosting的策略:</p>
+<ul>
+<li>在Weight或者Activation上采取的量化方法为：</li>
+</ul>
+<p>$$<br>x_{b}=\operatorname{Sign}(x)<br>$$</p>
+<ul>
+<li>在反向过程中，采取的仍然是”直通估计法”<br>$$<br>\frac{\partial J}{\partial x}=\frac{\partial J}{\partial x_{b}} I_{|x| \leq 1}<br>$$</li>
+</ul>
+<h3 id="BENN-Bagging"><a href="#BENN-Bagging" class="headerlink" title="BENN-Bagging"></a>BENN-Bagging</h3><ul>
+<li>将弱分类器进行平均，并从头训练网络<ul>
+<li><strong>训练阶段</strong>:利用训练集中的采样子集$M$，独立地训练K次BNN，得到K个BNN网络结构</li>
+<li><strong>测试阶段</strong>:有两种策略选择方案：<ul>
+<li>选择BNN中对某个类别支持数最多的网络出来的结果</li>
+<li>通过Softmax集成所有的概率值，选择最好的Label</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="BENN-Boosting"><a href="#BENN-Boosting" class="headerlink" title="BENN-Boosting"></a>BENN-Boosting</h3><ul>
+<li><p>Boosting 是一种在函数空间中，阶段性梯度下降的优化方式<br>$$<br>J\left(B^{K}\right)=\sum_{i} e^{-Y^{T} P^{K}}=\sum_{i} e^{-Y^{T}\left(P^{K-1}+\alpha_{k} p^{K}\right)}<br>$$<br>其中:$Y=\left(y_{1}, \dots, y_{C}\right)^{T}$,第$k$个分类器的假设为$b^{k} : X \rightarrow \mathbb{R}$,其权值为$\alpha_k$,对应分布为$p^k$</p>
+<p>因此$AdaBoost $算法的Loss为上述函数</p>
+</li>
+</ul>
+<h4 id="ReWeighting-Principle"><a href="#ReWeighting-Principle" class="headerlink" title="ReWeighting Principle"></a>ReWeighting Principle</h4><p>AdaBoost 算法的核心是当前的分类器更加注重上一个分类器错分的结果，因此就需要给分类器重新设置权重</p>
+<ul>
+<li><p>Step 1 ——<strong>重设采样概率</strong>:</p>
+<ul>
+<li>在初始阶段，使得每一个训练样本$i$被选到的概率为$\pi=u_{i}=1 / M$</li>
+<li>在每个Epoch之后，我们根据分类置信度重新计量抽样概率</li>
+</ul>
+</li>
+<li><p>Step 2 ——<strong>重设Loss和梯度</strong></p>
+<ul>
+<li><p>但是这种方法在实验过程中失效，可能是由于梯度不匹配现象并不像想象中那么严重</p>
+</li>
+<li><h5 id="nabla-w-J-left-b-k-right-lambda-cdot-left-alpha-k-p-y-k-right-left-u-i-right-cdot-nabla-w-J-left-b-k-right"><a href="#nabla-w-J-left-b-k-right-lambda-cdot-left-alpha-k-p-y-k-right-left-u-i-right-cdot-nabla-w-J-left-b-k-right" class="headerlink" title="$\nabla_{w} J\left(b^{k}\right):=\lambda \cdot\left(\alpha_{k} p_{y}^{k}\right)\left(u_{i}\right) \cdot \nabla_{w} J\left(b^{k}\right)$"></a>$\nabla_{w} J\left(b^{k}\right):=\lambda \cdot\left(\alpha_{k} p_{y}^{k}\right)\left(u_{i}\right) \cdot \nabla_{w} J\left(b^{k}\right)$</h5></li>
+</ul>
+</li>
+</ul>
+<h4 id="Test-Time-Complexity"><a href="#Test-Time-Complexity" class="headerlink" title="Test-Time Complexity"></a>Test-Time Complexity</h4><p>相对于浮点型的model，BNN能够达到的加速为32X,但是本文因为利用了K个BNN网络，所以总体的加速效果应当为$32/K X$</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Paper/" rel="tag"># Paper</a>
+          
+            <a href="/tags/Quantization/" rel="tag"># Quantization</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/20/C、Python、Cuda、Torch混合编译/" rel="prev" title="C、Python、Cuda、Torch混合编译学习纪录">
+                C、Python、Cuda、Torch混合编译学习纪录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Me.png" alt="LeeHX">
+            
+              <p class="site-author-name" itemprop="name">LeeHX</p>
+              <p class="site-description motion-element" itemprop="description">MY BLOG</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Binary-Ensemble-Neural-Network-More-Bits-per-Network-of-More-Networks-per-Bits"><span class="nav-number">1.</span> <span class="nav-text">Binary Ensemble Neural Network:More Bits per Network of More Networks per Bits</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explore"><span class="nav-number">1.2.</span> <span class="nav-text">Explore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Robustness"><span class="nav-number">1.2.1.</span> <span class="nav-text">Robustness</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-Network-Setting"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Random Network Setting</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stability"><span class="nav-number">1.2.2.</span> <span class="nav-text">Stability</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">1.3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BENN-Bagging"><span class="nav-number">1.3.1.</span> <span class="nav-text">BENN-Bagging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BENN-Boosting"><span class="nav-number">1.3.2.</span> <span class="nav-text">BENN-Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ReWeighting-Principle"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">ReWeighting Principle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#nabla-w-J-left-b-k-right-lambda-cdot-left-alpha-k-p-y-k-right-left-u-i-right-cdot-nabla-w-J-left-b-k-right"><span class="nav-number">1.3.2.1.1.</span> <span class="nav-text">$\nabla_{w} J\left(b^{k}\right):=\lambda \cdot\left(\alpha_{k} p_{y}^{k}\right)\left(u_{i}\right) \cdot \nabla_{w} J\left(b^{k}\right)$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Test-Time-Complexity"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Test-Time Complexity</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LeeHX</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
